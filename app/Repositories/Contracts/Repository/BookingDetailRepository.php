@@ -12,4 +12,12 @@ class BookingDetailRepository extends BaseRepository implements BookingDetailRep
     {
         return BookingDetail::class;
     }
+
+    public function getBookingDetail(int $id) : object
+    {   
+
+        $bookingDetail = BookingDetail::where('booking_id', $id)->get();
+
+        return $bookingDetail;
+    }
 }

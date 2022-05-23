@@ -26,9 +26,9 @@ class HotelController extends Controller
      * @param HotelRepositoryInterface $hotelRepository
      * @param HotelService $hotelService
      */
-    public function __construct(
-        HotelRepositoryInterface $hotelRepository,
-        HotelService $hotelService
+    public function __construct( //hàm khởi tạo 
+        HotelRepositoryInterface $hotelRepository,  //Dependencies Injection: Giảm thiểu sự phụ thuộc
+        HotelService $hotelService      //DI: là 1 design pattern
     ) 
     {
         $this->hotelRepository = $hotelRepository;
@@ -38,15 +38,15 @@ class HotelController extends Controller
     /**
      * @return void
      */
-    public function index()
-    {
-        $hotels = $this->hotelRepository->getAll();
+    public function index() //danh sách hotel
+    { 
+        $hotels = $this->hotelRepository->getAll(); //lấy ra tất cả hotel trong db
 
-        return response()->json([
-            'errCode' => 0,
-            'message' => 'success',
-            'hotels' => $hotels,
-        ], 200);
+        return response()->json([  //trả về đoạn dữ liệu json
+            'errCode' => 0,         //errCode: trả về bên front end để check lỗi
+            'message' => 'success', //message: trả về bên front end để thông báo
+            'hotels' => $hotels,    //hotels: data trả về bên front end
+        ], 200); //200: Http status
     }
 
     /**
@@ -56,12 +56,12 @@ class HotelController extends Controller
      */
     public function create(Request $request) 
     {
-        $hotel = $this->hotelService->create($request->toArray());
-        $msg = 'Created successfully';
+        $hotel = $this->hotelService->create($request->toArray()); //toArray(): chuyển $request thành mảng 
+        $msg = 'Created successfully'; //gán message bằng 1 chuỗi 
 
         return response()->json([
-            'message' => $msg,
-            'errCode' => 0,
+            'message' => $msg, // 'message' => 'Created successfully'
+            'errCode' => 0, //trả về frontend để xác nhận 
             'hotel' => $hotel
         ], 201);
     }
@@ -71,10 +71,9 @@ class HotelController extends Controller
      * 
      * @return void
      */
-    public function show(int $id)
+    public function show(int $id) //lấy ra hotel theo id
     {
-        $hotel = $this->hotelRepository->find($id);
-        $msg = 'Get hotel success';
+        $hotel = $this->hotelRepository->find($id); //gọi đến hàm find trong hotelRepository 
 
         return response()->json([
             'hotel' => $hotel,
@@ -87,15 +86,14 @@ class HotelController extends Controller
      * 
      * @return void
      */
-    public function edit(Request $request)
+    public function edit(Request $request) //hàm sửa
     {
-        $hotel = $this->hotelService->update($request['id'], $request);
-        $msg = 'Updated successfully';
+        $hotel = $this->hotelService->update($request['id'], $request); //gọi đến hàm update từ hotelService
 
         return response()->json([
-            'message' => $msg,
+            'message' => 'success',
             'errCode' => 0,
-            'hotel' => $hotel
+            'hotel' => $hotel //trả về dữ liệu cho front end
         ], 200);
     }
 
@@ -104,15 +102,14 @@ class HotelController extends Controller
      * 
      * @return void
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request) //hàm xoá
     {
-        $query = $request->query();
-        $hotel = $this->hotelRepository->delete($query['id']);
-        $msg = 'Deleted successfully';
+        $query = $request->query(); //Lấy ra query từ request
+        $hotel = $this->hotelRepository->delete($query['id']); //gọi đến hàm xoá từ hotelRepository
 
         return response()->json([
             'errCode' => 0,
-            'message' => $msg
+            'message' => 'success'
         ], 200);
     }
 }

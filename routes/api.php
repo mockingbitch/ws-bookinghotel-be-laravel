@@ -8,7 +8,9 @@ use App\Http\Controllers\Api\Dashboard\RoomController;
 use App\Http\Controllers\Api\Dashboard\AmountController;
 use App\Http\Controllers\Api\Dashboard\AvailabilityController;
 use App\Http\Controllers\Api\Dashboard\BookingController;
+use App\Http\Controllers\Api\Dashboard\BookingDetailController;
 use App\Http\Controllers\Api\Dashboard\CityController;
+use App\Http\Controllers\Api\Dashboard\UserController;
 use App\Http\Controllers\Api\Home\HomeController;
 
 
@@ -42,15 +44,15 @@ Route::group([
     //ADMIN
 
     Route::prefix('admin')->group(function (){
-    Route::get('/dashboard', [HomeController::class, 'dashboard']);
+        Route::get('/dashboard', [HomeController::class, 'dashboard']);
 
         // Hotel
         Route::put('/edithotel', [HotelController::class, 'edit']);
-        Route::prefix('hotels')->group(function (){
-            Route::get('/', [HotelController::class, 'index']);
-            Route::post('/', [HotelController::class, 'create']);
-            Route::put('/', [HotelController::class, 'update']);
-            Route::delete('/', [HotelController::class, 'destroy']);
+        Route::prefix('hotels')->group(function (){   //Chuẩn RESTful API
+            Route::get('/', [HotelController::class, 'index']); // api/auth/admin/hotels get: lấy giá trị trả về
+            Route::post('/', [HotelController::class, 'create']); //post: phương thức thêm mới
+            Route::put('/', [HotelController::class, 'update']); //put ~ post (nhưng dành cho update)
+            Route::delete('/', [HotelController::class, 'destroy']); //delete: xoá
         });
 
         // Room
@@ -84,6 +86,11 @@ Route::group([
         Route::prefix('booking')->group(function (){
             Route::get('/', [BookingController::class, 'index']);
             Route::post('/', [BookingController::class, 'create']);
+        });
+
+        //BookingDetail
+        Route::prefix('bookingdetail')->group(function (){
+            Route::get('/', [BookingController::class, 'getBookingDetail']);
         });
     });
 

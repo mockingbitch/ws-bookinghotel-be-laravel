@@ -44,7 +44,7 @@ class BookingController extends Controller
         return response()->json([
             'message' => 'success',
             'errCode' => 0,
-            'booking' => $bookings,
+            'bookings' => $bookings,
         ]);
     }
 

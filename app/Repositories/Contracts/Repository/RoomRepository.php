@@ -20,8 +20,8 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
      */
     public function findByHotel(int $id) : object
     {
-        $rooms = Room::where('hotel_id', $id)->get();   
+        $rooms = Room::where('hotel_id', $id)->get();   //lấy ra room theo hotel 
 
-        return $rooms;
+        return $rooms; //trả về room
     }
 }

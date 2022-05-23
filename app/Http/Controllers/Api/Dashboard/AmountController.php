@@ -39,14 +39,14 @@ class AmountController extends Controller
      * @param AmountRepositoryInterface $amountRepository
      * @param AmountService $amountService
      */
-    public function __construct(
+    public function __construct(  //các class được khởi tạo trong construct sẽ được khởi tạo khi class được gọi tới
         RoomRepositoryInterface $roomRepository,
         HotelRepositoryInterface $hotelRepository,
         AmountRepositoryInterface $amountRepository,
         AmountService $amountService
     ) 
     {
-        $this->roomRepository = $roomRepository;
+        $this->roomRepository = $roomRepository;   //gán
         $this->hotelRepository = $hotelRepository;
         $this->amountRepository = $amountRepository;
         $this->amountService = $amountService;
@@ -58,24 +58,23 @@ class AmountController extends Controller
      * 
      * @return void
      */
-    public function index(Request $request) 
+    public function index(Request $request) //lấy ra danh sách amount từ bảng amount
     {
         try {
-            $query = $request->query();
-            $room = $this->roomRepository->find($query['room']);
-            $amounts = $this->amountRepository->findByRoom($room->id);
+            $query = $request->query(); //lấy ra query từ request 
+            $room = $this->roomRepository->find($query['room']); //tìm room theo id 
+            $amounts = $this->amountRepository->findByRoom($room->id); //gọi đến hàm find_by_room_id
             foreach($amounts as $amount) {
                 $data[] = [
                     'id' => $amount->id,
                     'room_id' => $amount->room_id,
                     'price' => $amount->price,
-                    'date' => date('Y-m-d', $amount->day)
+                    'date' => date('Y-m-d', $amount->day) //format date
                 ];
-            } 
-            $msg = 'success';
+            }  //đổ data và format data
 
             return response()->json([
-                'message' => $msg,
+                'message' => 'success',
                 'errCode' => 0,
                 'amounts' => $data,
             ], 200);
@@ -93,7 +92,7 @@ class AmountController extends Controller
      * 
      * @return void
      */
-    public function create(Request $request) 
+    public function create(Request $request) //hàm tạo amount 
     {
         $amount = $this->amountService->createAmount($request['room_id'], $request->toArray());
         
