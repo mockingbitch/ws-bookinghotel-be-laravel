@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\Dashboard\BookingDetailController;
 use App\Http\Controllers\Api\Dashboard\CityController;
 use App\Http\Controllers\Api\Dashboard\UserController;
 use App\Http\Controllers\Api\Home\HomeController;
+use App\Http\Controllers\Api\CodeController;
 
 
 /*
@@ -86,11 +87,12 @@ Route::group([
         Route::prefix('booking')->group(function (){
             Route::get('/', [BookingController::class, 'index']);
             Route::post('/', [BookingController::class, 'create']);
+            Route::put('/', [BookingController::class, 'edit']);
         });
 
         //BookingDetail
         Route::prefix('bookingdetail')->group(function (){
-            Route::get('/', [BookingController::class, 'getBookingDetail']);
+            Route::get('/', [BookingDetailController::class, 'getBookingDetail']);
         });
     });
 
@@ -107,6 +109,7 @@ Route::group([
         Route::post('/rooms/{id}', [BookingController::class, 'create']);
     });
     Route::get('/thanks', [HomeController::class, 'thank']);
+    Route::get('/code', [CodeController::class, 'getAllCode']);
 });
 
 

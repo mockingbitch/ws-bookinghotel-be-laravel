@@ -32,7 +32,8 @@ class BookingDetailController extends Controller
     public function getBookingDetail(Request $request)
     {
         $query = $request->query();
-        $bookingDetail = $this->bookingDetailRepo->getBookingDetail($query['bookingid']);
+        
+        $bookingDetail = $this->bookingDetailRepo->getBookingDetail($query['id']);
 
         return response()->json([
             'errCode' => 0,
