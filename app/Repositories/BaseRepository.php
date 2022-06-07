@@ -29,19 +29,19 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
     public function getAll() 
     {
-        return $this->model->all();
+        return $this->model->all(); // tương tự Model::all()
     }
 
     public function find($id)
     {
-        $result = $this->model->find($id);
+        $result = $this->model->find($id); //gọi đến hàm find từ model
 
         return $result;
     }
 
     public function create($attributes = [])
     {
-        return $this->model->create($attributes);
+        return $this->model->create($attributes); //gọi đến hàm tạo của model vd:Amount::create($data[]);
     }
 
     public function update($id, $attributes = [])

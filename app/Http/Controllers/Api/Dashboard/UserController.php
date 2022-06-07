@@ -4,35 +4,34 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Repositories\Contracts\RepositoryInterface\CityRepositoryInterface;
+use App\Repositories\Contracts\RepositoryInterface\UserRepositoryInterface;
 
-class CityController extends Controller
+class UserController extends Controller
 {
     /**
-     * @var $cityRepo
+     * @var @userRepository
      */
-    protected $cityRepo; 
-
+    protected $userRepository;
+    
     /**
-     * @param CityRepositoryInterface $cityRepo
+     * @param UserRepositoryInterface $userRepository
      */
-    public function __construct(CityRepositoryInterface $cityRepo) 
+    public function __construct(
+        UserRepositoryInterface $userRepository
+    )
     {
-        $this->cityRepo = $cityRepo;
+        $this->userRepository = $userRepository;
     }
 
-    /**
-     * @return void
-     */
-    public function getAll() 
+    public function index()
     {
         try {
-            $cities = $this->cityRepo->getAll();
+            $users = $this->userRepository->getAllUser();
 
             return response()->json([
                 'errCode' => 0,
                 'message' => 'success',
-                'cities' => $cities
+                'users' => $users
             ]);
         } catch (\Throwable $th) {
             return response()->json([

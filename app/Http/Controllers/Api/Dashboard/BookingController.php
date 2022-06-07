@@ -44,7 +44,7 @@ class BookingController extends Controller
         return response()->json([
             'message' => 'success',
             'errCode' => 0,
-            'booking' => $bookings,
+            'bookings' => $bookings,
         ]);
     }
 
@@ -78,6 +78,30 @@ class BookingController extends Controller
                'message' => 'error',
                'error' => $th
            ]);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * 
+     * @return void
+     */
+    public function edit(Request $request)
+    {
+        try {
+            $data = ['status' => $request['status']];
+            $this->bookingRepository->update($request['booking_id'], $data);
+
+            return response()->json([
+                'errCode' => 0,
+                'message' => 'success',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'errCode' => 1,
+                'message' => 'error',
+                'error' => $th
+            ]);
         }
     }
 }

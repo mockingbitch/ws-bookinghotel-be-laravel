@@ -7,6 +7,7 @@ use App\Repositories\Contracts\RepositoryInterface\BookingDetailRepositoryInterf
 use App\Repositories\Contracts\RepositoryInterface\AvailabilityRepositoryInterface;
 use App\Repositories\Contracts\RepositoryInterface\AmountRepositoryInterface;
 use App\Models\Availability;
+use Mail;
 
 class BookingService
 {
@@ -165,6 +166,12 @@ class BookingService
             'msg' => 'success',
             'errCode' => 0
         ];
+
+        //Send mail
+        Mail::send('mail.booking', compact('request'), function($email) use($request) {
+            $email->subject('Booking Hotel - Confirm');
+            $email->to($request['guest_email'], $request['guest_name']);
+        });
 
         return $res;
         } else {

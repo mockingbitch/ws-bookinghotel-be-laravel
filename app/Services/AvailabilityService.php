@@ -23,7 +23,7 @@ class AvailabilityService
      * 
      * @return void
      */
-    public function createAvailability(int $room_id, array $request) 
+    public function createAvailability(int $room_id, array $request)  //tương tự amount
     {
         $data = array();
         $dates = array();

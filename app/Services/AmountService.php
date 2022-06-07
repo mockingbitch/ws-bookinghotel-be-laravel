@@ -12,7 +12,7 @@ class AmountService
     /**
      * @param AmountRepository $amountRepository
      */
-    public function __construct(AmountRepositoryInterface $amountRepository )
+    public function __construct(AmountRepositoryInterface $amountRepository )  
     {
         $this->amountRepository = $amountRepository;
     }
@@ -25,30 +25,30 @@ class AmountService
      */
     public function createAmount(int $room_id, array $request) 
     {
-        $data = array();
-        $dates = array();
+        $data = array(); //tạo array  = null 
+        $dates = array(); 
         
-        if ($request['end_date'] == null) {
-            $start = $request['start_date'];
+        if ($request['end_date'] == null) { //nếu enddate = null => startdate = enddate
+            $start = $request['start_date']; //gán
             $end = $request['start_date'];
-        } elseif ($request['start_date'] < $request['end_date']) {
-            $start = strtotime($request['start_date']);
+        } elseif ($request['start_date'] < $request['end_date']) { //check startdate và enddate nhập đúng hay sai
+            $start = strtotime($request['start_date']);  //strtotime => convert time string về dạng timestamp
             $end = strtotime($request['end_date']);
         } else {
             $end = strtotime($request['start_date']);
             $start = strtotime($request['end_date']);
         }
 
-        for ($currentDate = $start; $currentDate <= $end; $currentDate += (86400)) {
-            $store = date('Y-m-d', $currentDate);
+        for ($currentDate = $start; $currentDate <= $end; $currentDate += (86400)) {  //for($i = startdate; $i <= enddate; $i + 1 ngày)
+            $store = date('Y-m-d', $currentDate);//lấy ra mảng data dates 
             $dates[] = $store;
         }
 
         foreach ($dates as $date) {
-            $amount = $this->amountRepository->findByDay($room_id, strtotime($date));
+            $amount = $this->amountRepository->findByDay($room_id, strtotime($date)); //lấy ra amount theo ngày
             
-            if (isset($amountlability) && count($amountlability) > 0) {
-                return false;
+            if (isset($amount) && count($amount) > 0) { //check tồn tại trong db
+                return false; //nếu tồn tại thì ko cho nhập => trả về false
             } else {
                 $data = [
                     'room_id' => $room_id,
@@ -56,7 +56,7 @@ class AmountService
                     'day' => strtotime($date)
                 ];
             
-                $this->amountRepository->create($data);
+                $this->amountRepository->create($data); //hàm tạo amount 
             }
         }
 

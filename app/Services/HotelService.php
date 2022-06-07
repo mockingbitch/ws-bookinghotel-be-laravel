@@ -28,10 +28,10 @@ class HotelService
     public function create(array $request)
     {
         if(isset($request['image'])) {
-            $request['image'] = $this->imageProcessing($request['image']);
+            $request['image'] = $this->imageProcessing($request['image']); //xử lý ảnh
         }
         
-        $hotel=$this->hotelRepository->create($request);
+        $hotel=$this->hotelRepository->create($request); //hàm tạo = $hotel = Hotel::create($request['data'])
     }
 
     /**
@@ -42,7 +42,6 @@ class HotelService
      */
     public function update(int $id, $request)
     {
-        dd($request->name);
         $data = [
             'name' => $request->name,
             'city' => $request->city,
@@ -65,7 +64,7 @@ class HotelService
      */
     public function imageProcessing($file)
     {
-        $image = uniqid('', true) . $file->getClientOriginalName();
+        $image = uniqid('', true) . $file->getClientOriginalName(); 
         $file->move('uploads/hotels', $image);
 
         return $image;
