@@ -22,4 +22,16 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         return $users;
     }
+
+    /**
+     * @param integer $id
+     * 
+     * @return void
+     */
+    public function getProfile(int $id)
+    {
+        $user = User::select('id','name', 'phone', 'email', 'avatar', 'cccd', 'position')->where('id', $id)->get();
+
+        return $user;
+    }
 }
