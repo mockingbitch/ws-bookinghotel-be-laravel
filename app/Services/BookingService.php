@@ -74,6 +74,14 @@ class BookingService
             $start = strtotime($request['end_date']);
         }
 
+        $now = strtotime(date("Y/m/d"));
+        if ($start < $now || $end < $now) {
+            return $res = [
+                'errCode' => 1,
+                'msg' => 'failed'
+            ];
+        }
+
         for ($currentDate = $start; $currentDate <= $end; $currentDate += (86400)) {
             $store = date('Y-m-d', $currentDate);
             $dates[] = $store;

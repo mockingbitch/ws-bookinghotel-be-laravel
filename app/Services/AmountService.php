@@ -45,10 +45,13 @@ class AmountService
         }
 
         foreach ($dates as $date) {
-            $amount = $this->amountRepository->findByDay($room_id, strtotime($date)); //lấy ra amount theo ngày
+            $amount = $this->amountRepository->findByDay($room_id, $date); //lấy ra amount theo ngày
             
             if (isset($amount) && count($amount) > 0) { //check tồn tại trong db
-                return false; //nếu tồn tại thì ko cho nhập => trả về false
+                return $res = [
+                    'errCode' => 1,
+                    'msg' => 'Already exists'
+                ];
             } else {
                 $data = [
                     'room_id' => $room_id,
@@ -57,9 +60,12 @@ class AmountService
                 ];
             
                 $this->amountRepository->create($data); //hàm tạo amount 
+
+                return $res = [
+                    'errCode' => 0,
+                    'msg' => 'success'
+                ];
             }
         }
-
-        return true;
     }
 }

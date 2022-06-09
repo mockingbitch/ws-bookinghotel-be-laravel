@@ -95,18 +95,10 @@ class AmountController extends Controller
     public function create(Request $request) //hàm tạo amount 
     {
         $amount = $this->amountService->createAmount($request['room_id'], $request->toArray());
-        
-        if ($amount == false) {
-            return response()->json([
-                'errCode' => 1,
-                'message' => 'Please check your date range'
-            ], 200);
-        }
 
         return response()->json([
-            'message' => 'success',
-            'errCode' => 0,
-            'amount' => $amount
+            'message' => $amount['msg'],
+            'errCode' => $amount['errCode'],
         ], 201);
     }
 

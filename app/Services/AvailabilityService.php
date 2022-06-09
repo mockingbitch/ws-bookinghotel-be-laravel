@@ -45,10 +45,13 @@ class AvailabilityService
         }
 
         foreach ($dates as $date) {
-            $availability = $this->avaiRepository->findByDay($room_id, strtotime($date));
+            $availability = $this->avaiRepository->findByDay($room_id, $date);
             
             if (isset($availability) && count($availability) > 0) {
-                return false;
+                return $res = [
+                    'errCode' => 1,
+                    'msg' => 'Already exists'
+                ];
             } else {
                 $data = [
                     'room_id' => $room_id,
@@ -57,9 +60,12 @@ class AvailabilityService
                 ];
             
                 $this->avaiRepository->create($data);
+
+                return $res = [
+                    'errCode' => 0,
+                    'msg' => 'success'
+                ];
             }
         }
-
-        return true;
     }
 }

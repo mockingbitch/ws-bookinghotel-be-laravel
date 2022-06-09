@@ -111,11 +111,14 @@ class AvailabilityController extends Controller
             ], 200);
         }
 
+        // return response()->json([
+        //     'message' => 'success',
+        //     'errCode' => 0,
+        // ], 201);
         return response()->json([
-            'message' => 'success',
-            'errCode' => 0,
-            'availability' => $availability //return true || false
-        ], 201);
+            'message' => $availability['msg'],
+            'errCode' => $availability['errCode']
+        ], 200);
     }
 
      /**
