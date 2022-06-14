@@ -57,15 +57,6 @@ class BookingController extends Controller
     public function create(Request $request) 
     {
        try {
-        // $user = auth()->user();
-        // $user_id = $user->id;
-        // if (!isset($user) || $user_id != $request['user_id']) {
-        //     return response()->json([
-        //         'message' => 'Unauthorized',
-        //         'errCode' => 1
-        //     ], 401);
-        // }
-
         $booking = $this->bookingService->create($request['user_id'], $request['room_id'], $request->toArray());
 
         return response()->json([
@@ -89,7 +80,10 @@ class BookingController extends Controller
     public function edit(Request $request)
     {
         try {
-            $data = ['status' => $request['status']];
+            $data = [
+                'status' => $request['status'],
+                'admin_id' => $request['admin_id']
+            ];
             $this->bookingRepository->update($request['booking_id'], $data);
 
             return response()->json([
