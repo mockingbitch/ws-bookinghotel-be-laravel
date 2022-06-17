@@ -7,4 +7,5 @@ use App\Repositories\BaseRepositoryInterface;
 interface RoomRepositoryInterface extends BaseRepositoryInterface
 {
     public function findByHotel(int $id);
+    public function searchRoom($request = []);
 }
