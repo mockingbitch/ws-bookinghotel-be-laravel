@@ -57,12 +57,13 @@ class BookingController extends Controller
     public function create(Request $request) 
     {
        try {
-        $booking = $this->bookingService->create($request['user_id'], $request['room_id'], $request->toArray());
+            $user = auth()->user();
+            $booking = $this->bookingService->create($user->id, $request['room_id'], $request->toArray());
 
-        return response()->json([
-            'message' => $booking['msg'],
-            'errCode' => $booking['errCode'],
-        ]);
+            return response()->json([
+                'message' => $booking['msg'],
+                'errCode' => $booking['errCode'],
+            ]);
         } catch (\Throwable $th) {
            return response()->json([
                'errCode' => 1,

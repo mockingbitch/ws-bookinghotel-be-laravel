@@ -22,4 +22,16 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         return $users;
     }
+
+    /**
+     * @param string $name
+     * 
+     * @return void
+     */
+    public function search(string $name)
+    {
+        $users = User::where('name', 'LIKE', '%'.$name.'%')->get();
+        
+        return $users;
+    }
 }

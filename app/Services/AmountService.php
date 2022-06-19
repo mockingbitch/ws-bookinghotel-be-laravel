@@ -60,12 +60,12 @@ class AmountService
                 ];
             
                 $this->amountRepository->create($data); //hàm tạo amount 
-
-                return $res = [
-                    'errCode' => 0,
-                    'msg' => 'success'
-                ];
             }
         }
+
+        return $res = [
+            'errCode' => 0,
+            'msg' => 'success'
+        ];
     }
 }
