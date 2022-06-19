@@ -81,6 +81,8 @@ Route::group([
         //User 
         Route::prefix('user')->group(function (){
             Route::get('/', [UserController::class, 'index']);
+            Route::get('/search', [UserController::class, 'search']);
+            Route::get('/profile', [UserController::class, 'profile']);
         });
 
         //Booking

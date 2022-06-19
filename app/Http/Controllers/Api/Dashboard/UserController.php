@@ -23,6 +23,9 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * @return void
+     */
     public function index()
     {
         try {
@@ -32,12 +35,46 @@ class UserController extends Controller
                 'errCode' => 0,
                 'message' => 'success',
                 'users' => $users
-            ]);
+            ], 200);
         } catch (\Throwable $th) {
             return response()->json([
                 'errCode' => 1,
                 'message' => 'failed'
             ]);
         }
+    }
+
+    /**
+     * @param Request $request
+     * 
+     * @return void
+     */
+    public function search(Request $request) 
+    {
+        try {
+            $query = $request->query();
+            $users = $this->userRepository->search($query['name']);
+
+            return response()->json([
+                'errCode' => 0,
+                'message' => 'success',
+                'users' => $users
+            ], 200);
+        } catch (\Throwable $th) {
+          
+        }
+    }
+
+    /**
+     * Get the authenticated User.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function profile() {
+        return response()->json([
+            'errCode' => 0,
+            'message' => 'success',
+            'user' => auth()->user()
+        ], 200);
     }
 }
