@@ -60,12 +60,12 @@ class AvailabilityService
                 ];
             
                 $this->avaiRepository->create($data);
-
-                return $res = [
-                    'errCode' => 0,
-                    'msg' => 'success'
-                ];
             }
         }
+
+        return $res = [
+            'errCode' => 0,
+            'msg' => 'success'
+        ];
     }
 }
