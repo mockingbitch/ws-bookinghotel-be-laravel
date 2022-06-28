@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\RepositoryInterface\CityRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
+
 
 class CityController extends Controller
 {
@@ -24,15 +26,17 @@ class CityController extends Controller
     /**
      * @return void
      */
-    public function getAll()
+    public function getAll() 
     {
         try {
             $cities = $this->cityRepo->getAll();
+            $user = Auth::user();
 
             return response()->json([
                 'errCode' => 0,
                 'message' => 'success',
-                'cities' => $cities
+                'cities' => $cities,
+                'user' => $user
             ]);
         } catch (\Throwable $th) {
             return response()->json([

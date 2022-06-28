@@ -7,6 +7,7 @@ use App\Repositories\Contracts\RepositoryInterface\BookingDetailRepositoryInterf
 use App\Repositories\Contracts\RepositoryInterface\AvailabilityRepositoryInterface;
 use App\Repositories\Contracts\RepositoryInterface\AmountRepositoryInterface;
 use App\Models\Availability;
+use Mail;
 
 class BookingService
 {
@@ -71,6 +72,14 @@ class BookingService
         } else {
             $end = strtotime($request['start_date']);
             $start = strtotime($request['end_date']);
+        }
+
+        $now = strtotime(date("Y/m/d"));
+        if ($start < $now || $end < $now) {
+            return $res = [
+                'errCode' => 1,
+                'msg' => 'failed'
+            ];
         }
 
         for ($currentDate = $start; $currentDate <= $end; $currentDate += (86400)) {
@@ -165,6 +174,12 @@ class BookingService
             'msg' => 'success',
             'errCode' => 0
         ];
+
+        //Send mail
+        Mail::send('mail.booking', compact('request'), function($email) use($request) {
+            $email->subject('Booking Hotel - Confirm');
+            $email->to($request['guest_email'], $request['guest_name']);
+        });
 
         return $res;
         } else {

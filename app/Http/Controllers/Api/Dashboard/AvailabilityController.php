@@ -45,7 +45,7 @@ class AvailabilityController extends Controller
      * @param AvailabilityRepositoryInterface $avaiRepository
      * @param AvailabilityService $availabilityService
      */
-    public function __construct(
+    public function __construct(                    //khởi tạo
         RoomRepositoryInterface $roomRepository,
         HotelRepositoryInterface $hotelRepository,
         CodeRepositoryInterface $codeRepository,
@@ -102,7 +102,7 @@ class AvailabilityController extends Controller
      */
     public function create(Request $request) 
     {
-        $availability = $this->avaiService->createAvailability($request['room_id'], $request->toArray());
+        $availability = $this->avaiService->createAvailability($request['room_id'], $request->toArray()); //return true || false
         
         if ($availability == false) {
             return response()->json([
@@ -111,11 +111,14 @@ class AvailabilityController extends Controller
             ], 200);
         }
 
+        // return response()->json([
+        //     'message' => 'success',
+        //     'errCode' => 0,
+        // ], 201);
         return response()->json([
-            'message' => 'success',
-            'errCode' => 0,
-            'availability' => $availability
-        ], 201);
+            'message' => $availability['msg'],
+            'errCode' => $availability['errCode']
+        ], 200);
     }
 
      /**

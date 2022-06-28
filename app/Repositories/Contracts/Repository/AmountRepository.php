@@ -34,7 +34,7 @@ class AmountRepository extends BaseRepository implements AmountRepositoryInterfa
      */
     public function findByRoom(int $room_id) : object
     {
-        $amount = Amount::where('room_id', $room_id)->get();
+        $amount = Amount::where('room_id', $room_id)->get(); //select amount where(room_id = $room_id); get ~ select
 
         return $amount;
     }

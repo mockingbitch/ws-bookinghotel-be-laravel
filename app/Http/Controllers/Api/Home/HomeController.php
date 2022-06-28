@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Home;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\RepositoryInterface\HotelRepositoryInterface;
+use App\Repositories\Contracts\RepositoryInterface\RoomRepositoryInterface;
 
 class HomeController extends Controller
 {
@@ -14,13 +15,27 @@ class HomeController extends Controller
     protected $hotelRepository;
 
     /**
+     * @var $roomRepository
+     */
+    protected $roomRepository;
+
+    /**
      * @param HotelRepositoryInterface $hotelRepository
      */
-    public function __construct(HotelRepositoryInterface $hotelRepository)
+    public function __construct(
+        HotelRepositoryInterface $hotelRepository,
+        RoomRepositoryInterface $roomRepository
+        )
     {
         $this->hotelRepository = $hotelRepository;
+        $this->roomRepository = $roomRepository;
     }
 
+    /**
+     * @param Request $request
+     * 
+     * @return void
+     */
     public function listHotel(Request $request)
     {
         $query = $request->query();
@@ -41,5 +56,22 @@ class HomeController extends Controller
                 ], 204);
             }
         }
+    }
+
+    /**
+     * @param Request $request
+     * 
+     * @return void
+     */
+    public function search(Request $request) 
+    {   
+        $query = $request->query();
+        $rooms = $this->roomRepository->searchRoom($query);
+        
+        return response()->json([
+            'errCode' => 0,
+            'message' => 'success',
+            'rooms' => $rooms
+        ]);
     }
 }
